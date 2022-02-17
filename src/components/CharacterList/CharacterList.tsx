@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CharacterTile } from '../CharacterTile/CharacterTile';
+import { CharacterTileMemoized } from '../CharacterTile/CharacterTile';
 
 type ListProps = {
   characters: Array<Character> | null;
@@ -9,35 +9,51 @@ export interface Character {
   name: string;
   category: string;
   description: string;
-  // Check whether this should be optional
-  significanceIndex?: number;
+  significanceIndex: number;
   avatar: string;
 }
-
-const SORT_OPTIONS = ['alphabetically', 'significance'] as const;
 
 export const CharacterList = ({
   characters,
 }: ListProps): React.ReactElement => {
+  const SORT_OPTIONS = ['alphabetically', 'significance'] as const;
+
   const [listFilter, setListFilter] = useState<string | null>(null);
-  const [listSort, setListSort] = useState<'alphabetically' | 'significance'>(
+  const [sortOrder, setSortOrder] = useState<'alphabetically' | 'significance'>(
     SORT_OPTIONS[0]
   );
-  const [filteredAndSortedList, setFilteredAndSortedList] = useState<
-    Character[] | null
-  >(characters);
+  const [filteredList, setFilteredList] = useState<Character[] | null>(
+    characters
+  );
 
   useEffect(() => {
     if (listFilter && characters) {
-      setFilteredAndSortedList(
+      setFilteredList(
         characters.filter((character) => character.category === listFilter)
       );
     }
 
     if (!listFilter && characters) {
-      setFilteredAndSortedList(characters);
+      setFilteredList(characters);
     }
-  }, [listFilter]);
+  }, [listFilter, sortOrder, characters]);
+
+  const sortList = (list: Character[]) => {
+    if (sortOrder === 'significance') {
+      list.sort((a, b) => {
+        return a.significanceIndex - b.significanceIndex;
+      });
+    }
+
+    if (sortOrder === 'alphabetically') {
+      const collator = new Intl.Collator();
+      list.sort((a, b) => {
+        return collator.compare(a.name, b.name);
+      });
+    }
+
+    return list;
+  };
 
   const renderFilterOptions = () => {
     const filterOptions: string[] = [];
@@ -52,7 +68,9 @@ export const CharacterList = ({
 
     if (filterOptions.length > 0) {
       return filterOptions.map((option) => (
-        <option onClick={() => setListFilter(option)}>{option}</option>
+        <option onClick={() => setListFilter(option)} key={option}>
+          {option}
+        </option>
       ));
     }
 
@@ -60,22 +78,32 @@ export const CharacterList = ({
   };
 
   const renderSortOptions = () => {
-    return SORT_OPTIONS.map((sortOption) => {
-      return (
-        <option onClick={() => setListSort(sortOption)}>{sortOption}</option>
-      );
-    });
+    if (characters) {
+      return SORT_OPTIONS.map((sortOption) => {
+        return (
+          <option onClick={() => setSortOrder(sortOption)} key={sortOption}>
+            {sortOption}
+          </option>
+        );
+      });
+    }
   };
 
   const renderCharacterTiles = () => {
-    return filteredAndSortedList?.map((character) => (
-      <CharacterTile
-        name={character.name}
-        category={character.category}
-        description={character.description}
-        avatar={character.avatar}
-      />
-    ));
+    if (filteredList) {
+      return sortList(filteredList).map((character) => {
+        return (
+          <CharacterTileMemoized
+            key={character.name}
+            name={character.name}
+            category={character.category}
+            description={character.description}
+            avatar={character.avatar}
+            significanceIndex={character.significanceIndex}
+          />
+        );
+      });
+    }
   };
 
   return (
@@ -89,7 +117,7 @@ export const CharacterList = ({
         <label htmlFor="list-sort">Order by</label>
         <select id="list-sort">{renderSortOptions()}</select>
       </div>
-      {characters ? renderCharacterTiles() : null}
+      {filteredList ? renderCharacterTiles() : null}
     </div>
   );
 };

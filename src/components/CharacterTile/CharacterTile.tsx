@@ -1,7 +1,7 @@
 import { Character } from '../CharacterList/CharacterList';
 import React from 'react';
 
-export const CharacterTile = ({
+const CharacterTile = ({
   name,
   category,
   description,
@@ -12,7 +12,7 @@ export const CharacterTile = ({
 
   return (
     <div>
-      <img src={imageUrl} alt={`Image of ${name}`} />
+      <img src={imageUrl} alt={name} />
       <div>
         <h3>{name}</h3>
         <p>{category}</p>
@@ -21,3 +21,5 @@ export const CharacterTile = ({
     </div>
   );
 };
+
+export const CharacterTileMemoized = React.memo(CharacterTile);
