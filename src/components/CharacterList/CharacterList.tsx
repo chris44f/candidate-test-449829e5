@@ -16,10 +16,15 @@ export interface Character {
 export const CharacterList = ({
   characters,
 }: ListProps): React.ReactElement => {
-  const SORT_OPTIONS = ['alphabetically', 'significance'] as const;
+  const SORT_OPTIONS = [
+    'alphabetically (a to z)',
+    'alphabetically (z to a)',
+    'significance (high to low)',
+    'significance (low to high)',
+  ] as const;
 
   const [listFilter, setListFilter] = useState<string | null>(null);
-  const [sortOrder, setSortOrder] = useState<'alphabetically' | 'significance'>(
+  const [sortOrder, setSortOrder] = useState<typeof SORT_OPTIONS[number]>(
     SORT_OPTIONS[0]
   );
   const [filteredList, setFilteredList] = useState<Character[] | null>(
@@ -39,17 +44,28 @@ export const CharacterList = ({
   }, [listFilter, sortOrder, characters]);
 
   const sortList = (list: Character[]) => {
-    if (sortOrder === 'significance') {
-      list.sort((a, b) => {
-        return a.significanceIndex - b.significanceIndex;
-      });
-    }
-
-    if (sortOrder === 'alphabetically') {
+    const significanceSorter = (a: Character, b: Character) =>
+      a.significanceIndex - b.significanceIndex;
+    const alphabeticalSorter = (a: Character, b: Character) => {
       const collator = new Intl.Collator();
-      list.sort((a, b) => {
-        return collator.compare(a.name, b.name);
-      });
+      return collator.compare(a.name, b.name);
+    };
+
+    switch (sortOrder) {
+      case 'significance (high to low)':
+        list.sort(significanceSorter);
+        break;
+      case 'significance (low to high)':
+        list.sort(significanceSorter).reverse();
+        break;
+      case 'alphabetically (a to z)':
+        list.sort(alphabeticalSorter);
+        break;
+      case 'alphabetically (z to a)':
+        list.sort(alphabeticalSorter).reverse();
+        break;
+      default:
+        return list;
     }
 
     return list;
