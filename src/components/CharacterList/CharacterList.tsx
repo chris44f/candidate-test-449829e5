@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styles from './CharacterList.module.scss';
 import { CharacterTileMemoized } from '../CharacterTile/CharacterTile';
 
 type ListProps = {
@@ -23,10 +24,10 @@ export const CharacterList = ({
     'significance (low to high)',
   ] as const;
 
-  const [listFilter, setListFilter] = useState<string | null>(null);
-  const [sortOrder, setSortOrder] = useState<typeof SORT_OPTIONS[number]>(
-    SORT_OPTIONS[0]
-  );
+  const [listFilter, setListFilter] = useState<string | undefined>(undefined);
+  const [sortOrder, setSortOrder] = useState<
+    typeof SORT_OPTIONS[number] | string
+  >(SORT_OPTIONS[0]);
   const [filteredList, setFilteredList] = useState<Character[] | null>(
     characters
   );
@@ -84,7 +85,11 @@ export const CharacterList = ({
 
     if (filterOptions.length > 0) {
       return filterOptions.map((option) => (
-        <option onClick={() => setListFilter(option)} key={option}>
+        <option
+          key={option}
+          className={styles['dropdown-option']}
+          value={option}
+        >
           {option}
         </option>
       ));
@@ -97,7 +102,11 @@ export const CharacterList = ({
     if (characters) {
       return SORT_OPTIONS.map((sortOption) => {
         return (
-          <option onClick={() => setSortOrder(sortOption)} key={sortOption}>
+          <option
+            key={sortOption}
+            value={sortOption}
+            className={styles['dropdown-option']}
+          >
             {sortOption}
           </option>
         );
@@ -123,17 +132,37 @@ export const CharacterList = ({
   };
 
   return (
-    <div className="list-container">
-      <div className="filters-wrapper">
-        <label htmlFor="list-filter">Category</label>
-        <select id="list-filter">
-          <option onClick={() => setListFilter(null)}>Filter by...</option>
-          {renderFilterOptions()}
-        </select>
-        <label htmlFor="list-sort">Order by</label>
-        <select id="list-sort">{renderSortOptions()}</select>
+    <div className={styles['list-container']}>
+      <div className={styles['filters-wrapper']}>
+        <div className={styles['dropdown-wrapper']}>
+          <label htmlFor="list-filter" className={styles['dropdown-label']}>
+            Category
+          </label>
+          <select
+            id="list-filter"
+            value={listFilter}
+            onChange={(event) => setListFilter(event.target.value)}
+          >
+            <option value={undefined}>Filter by...</option>
+            {renderFilterOptions()}
+          </select>
+        </div>
+        <div className={styles['dropdown-wrapper']}>
+          <label htmlFor="list-sort" className={styles['dropdown-label']}>
+            Order by
+          </label>
+          <select
+            id="list-sort"
+            value={sortOrder}
+            onChange={(event) => setSortOrder(event.target.value)}
+          >
+            {renderSortOptions()}
+          </select>
+        </div>
       </div>
-      {filteredList ? renderCharacterTiles() : null}
+      <div className={styles['tiles-wrapper']}>
+        {filteredList ? renderCharacterTiles() : null}
+      </div>
     </div>
   );
 };
