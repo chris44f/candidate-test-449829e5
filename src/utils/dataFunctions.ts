@@ -1,4 +1,4 @@
-import { Character } from '../components/CharacterList/CharacterList';
+import { Character } from '../components/CharacterList/CharacterListTypes';
 
 export const sortCharacterList = (list: Character[], sortOrder: string) => {
   const significanceSorter = (a: Character, b: Character) =>

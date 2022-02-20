@@ -1,4 +1,4 @@
-import { Character } from '../CharacterList/CharacterList';
+import { Character } from '../CharacterList/CharacterListTypes';
 import styles from './CharacterTile.module.scss';
 import React from 'react';
 

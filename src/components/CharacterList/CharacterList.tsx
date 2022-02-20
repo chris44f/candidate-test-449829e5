@@ -2,18 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styles from './CharacterList.module.scss';
 import { CharacterTileMemoized } from '../CharacterTile/CharacterTile';
 import { filterByCategory, sortCharacterList } from '../../utils/dataFunctions';
+import { Character } from './CharacterListTypes';
 
 type ListProps = {
   characters: Array<Character> | null;
 };
-
-export interface Character {
-  name: string;
-  category: string;
-  description: string;
-  significanceIndex: number;
-  avatar: string;
-}
 
 export const CharacterList = ({
   characters,

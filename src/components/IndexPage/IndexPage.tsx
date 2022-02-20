@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import logo from '../../logo.svg';
 import styles from './IndexPage.module.scss';
 import { getCharacters } from '../../api/characters/charactersApi';
-import { CharacterList, Character } from '../CharacterList/CharacterList';
+import { CharacterList } from '../CharacterList/CharacterList';
+import { Character } from '../CharacterList/CharacterListTypes';
 
 interface Error {
   request?: string;
