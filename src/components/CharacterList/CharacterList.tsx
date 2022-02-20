@@ -38,7 +38,7 @@ export const CharacterList = ({
       setFilteredList(filterByCategory(characters, listFilter));
     }
 
-    if (!listFilter && characters) {
+    if ((!listFilter || listFilter === 'empty') && characters) {
       setFilteredList(characters);
     }
   }, [listFilter, sortOrder, characters]);
@@ -106,7 +106,7 @@ export const CharacterList = ({
             value={listFilter}
             onChange={(event) => setListFilter(event.target.value)}
           >
-            <option value={undefined}>Filter by...</option>
+            <option value="empty">Filter by...</option>
             {renderFilterOptions()}
           </select>
         </div>
