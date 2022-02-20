@@ -9,16 +9,16 @@ export const sortCharacterList = (list: Character[], sortOrder: string) => {
   };
 
   switch (sortOrder) {
-    case 'significance (high to low)':
+    case 'Significance (High to Low)':
       list.sort(significanceSorter);
       break;
-    case 'significance (low to high)':
+    case 'Significance (Low to High)':
       list.sort(significanceSorter).reverse();
       break;
-    case 'alphabetically (a to z)':
+    case 'Alphabetically (A to Z)':
       list.sort(alphabeticalSorter);
       break;
-    case 'alphabetically (z to a)':
+    case 'Alphabetically (Z to A)':
       list.sort(alphabeticalSorter).reverse();
       break;
     default:

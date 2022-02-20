@@ -36,7 +36,7 @@ describe('dataFunctions', () => {
     it('sorts character list alphabetically, starting with a, when sortOrder argument is alphabetically a to z', () => {
       const result = sortCharacterList(
         characterList,
-        'alphabetically (a to z)'
+        'Alphabetically (A to Z)'
       );
 
       expect(result[0].name).toBe('Arwen Evenstar');
@@ -48,7 +48,7 @@ describe('dataFunctions', () => {
     it('sorts character list reverse alphabetically, starting with z, when sortOrder argument is alphabetically (z to a)', () => {
       const result = sortCharacterList(
         characterList,
-        'alphabetically (z to a)'
+        'Alphabetically (Z to A)'
       );
 
       expect(result[0].name).toBe('Saruman the White');
@@ -60,7 +60,7 @@ describe('dataFunctions', () => {
     it('sorts character list by significance, starting with lowest, when sortOrder argument is significance (low to high)', () => {
       const result = sortCharacterList(
         characterList,
-        'significance (low to high)'
+        'Significance (Low to High)'
       );
 
       expect(result[0].name).toBe('Éomer');
@@ -72,7 +72,7 @@ describe('dataFunctions', () => {
     it('sorts character list by significance, starting with highest, when sortOrder argument is significance (high to low)', () => {
       const result = sortCharacterList(
         characterList,
-        'significance (high to low)'
+        'Significance (High to Low)'
       );
 
       expect(result[0].name).toBe('Arwen Evenstar');

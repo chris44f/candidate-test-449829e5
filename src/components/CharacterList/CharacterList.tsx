@@ -12,10 +12,10 @@ export const CharacterList = ({
   characters,
 }: ListProps): React.ReactElement => {
   const SORT_OPTIONS = [
-    'alphabetically (a to z)',
-    'alphabetically (z to a)',
-    'significance (high to low)',
-    'significance (low to high)',
+    'Alphabetically (A to Z)',
+    'Alphabetically (Z to A)',
+    'Significance (High to Low)',
+    'Significance (Low to High)',
   ] as const;
 
   const [listFilter, setListFilter] = useState<string | undefined>(undefined);
@@ -41,8 +41,12 @@ export const CharacterList = ({
 
     if (characters) {
       characters.forEach((character) => {
-        return !filterOptions.includes(character.category)
-          ? filterOptions.push(character.category)
+        const capitalisedCharacterCategory =
+          character.category.charAt(0).toUpperCase() +
+          character.category.slice(1);
+
+        return !filterOptions.includes(capitalisedCharacterCategory)
+          ? filterOptions.push(capitalisedCharacterCategory)
           : null;
       });
     }
@@ -97,7 +101,9 @@ export const CharacterList = ({
           <select
             id="list-filter"
             value={listFilter}
-            onChange={(event) => setListFilter(event.target.value)}
+            onChange={(event) =>
+              setListFilter(event.target.value.toLowerCase())
+            }
           >
             <option value="empty">Filter by...</option>
             {renderFilterOptions()}
