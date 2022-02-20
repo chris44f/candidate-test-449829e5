@@ -1,3 +1,5 @@
-export default {
+const apiUrls = {
   CHARACTERS: '/characters.json',
 };
+
+export default apiUrls;

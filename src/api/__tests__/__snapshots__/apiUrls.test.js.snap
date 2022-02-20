@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`urls remains unchanged 1`] = `
+Object {
+  "default": Object {
+    "CHARACTERS": "/characters.json",
+  },
+}
+`;
