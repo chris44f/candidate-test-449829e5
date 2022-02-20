@@ -1,14 +1,19 @@
+@use '../../styles/breakpoints';
+@use '../../styles/fonts';
+@use '../../styles/colours';
+@use '../../styles/variables';
+
 .tile-container {
   display: flex;
-  background-color: #ffffff;
-  padding: 12px 18px;
+  background-color: colours.$white;
+  padding: variables.$spacing-medium variables.$spacing-large;
 }
 
 .character-image {
   width: 80px;
   height: 80px;
-  border-radius: 50px;
-  margin: 0 16px 0 2px;
+  border-radius: 40px;
+  margin: 0 variables.$spacing-large 0 0;
 }
 
 .character-info-wrapper {
@@ -18,17 +23,34 @@
   align-items: flex-start;
 }
 
-.character-name {
-}
-
 .character-category {
   text-transform: capitalize;
-  font-size: 14px;
+  font-size: fonts.$medium-font;
   margin: 0;
+  color: colours.$grey-body-text;
 }
 
 .character-description {
   text-align: left;
-  font-size: 14px;
+  font-size: fonts.$medium-font;
   line-height: 18px;
+  color: colours.$grey-body-text;
+}
+
+@media screen and (max-width: breakpoints.$screen-small) {
+  .character-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+  }
+
+  .character-name {
+    font-size: fonts.$medium-font;
+    text-align: left;
+  }
+
+  .character-description,
+  .character-category {
+    font-size: fonts.$small-font;
+  }
 }

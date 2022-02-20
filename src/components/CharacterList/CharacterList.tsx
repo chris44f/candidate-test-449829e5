@@ -85,11 +85,7 @@ export const CharacterList = ({
 
     if (filterOptions.length > 0) {
       return filterOptions.map((option) => (
-        <option
-          key={option}
-          className={styles['dropdown-option']}
-          value={option}
-        >
+        <option key={option} value={option}>
           {option}
         </option>
       ));
@@ -102,11 +98,7 @@ export const CharacterList = ({
     if (characters) {
       return SORT_OPTIONS.map((sortOption) => {
         return (
-          <option
-            key={sortOption}
-            value={sortOption}
-            className={styles['dropdown-option']}
-          >
+          <option key={sortOption} value={sortOption}>
             {sortOption}
           </option>
         );
@@ -132,7 +124,7 @@ export const CharacterList = ({
   };
 
   return (
-    <div className={styles['list-container']}>
+    <div>
       <div className={styles['filters-wrapper']}>
         <div className={styles['dropdown-wrapper']}>
           <label htmlFor="list-filter" className={styles['dropdown-label']}>

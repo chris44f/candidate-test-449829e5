@@ -36,18 +36,20 @@ export default function IndexPage() {
   }, []);
 
   return (
-    <div className={styles.App}>
+    <div className={styles['App']}>
       <header className={styles['App-header']}>
         <img src={logo} className={styles['App-logo']} alt="logo" />
-        <h1 className="App-title">Lord of the Rings Character Index</h1>
+        <h1 className={styles['App-title']}>
+          Lord of the Rings Character Index
+        </h1>
       </header>
 
-      <section className="App-content">
+      <section className={styles['App-content']}>
         {error ? (
           <div>Sorry, there seems to be an error, please try again.</div>
         ) : null}
         {loading ? (
-          <div>Loading data</div>
+          <div className={styles['loading-text']}>Loading...</div>
         ) : (
           <CharacterList characters={characters} />
         )}
