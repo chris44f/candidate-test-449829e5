@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './CharacterList.module.scss';
 import { CharacterTileMemoized } from '../CharacterTile/CharacterTile';
+import { filterByCategory, sortCharacterList } from '../../utils/dataFunctions';
 
 type ListProps = {
   characters: Array<Character> | null;
@@ -34,43 +35,13 @@ export const CharacterList = ({
 
   useEffect(() => {
     if (listFilter && characters) {
-      setFilteredList(
-        characters.filter((character) => character.category === listFilter)
-      );
+      setFilteredList(filterByCategory(characters, listFilter));
     }
 
     if (!listFilter && characters) {
       setFilteredList(characters);
     }
   }, [listFilter, sortOrder, characters]);
-
-  const sortList = (list: Character[]) => {
-    const significanceSorter = (a: Character, b: Character) =>
-      a.significanceIndex - b.significanceIndex;
-    const alphabeticalSorter = (a: Character, b: Character) => {
-      const collator = new Intl.Collator();
-      return collator.compare(a.name, b.name);
-    };
-
-    switch (sortOrder) {
-      case 'significance (high to low)':
-        list.sort(significanceSorter);
-        break;
-      case 'significance (low to high)':
-        list.sort(significanceSorter).reverse();
-        break;
-      case 'alphabetically (a to z)':
-        list.sort(alphabeticalSorter);
-        break;
-      case 'alphabetically (z to a)':
-        list.sort(alphabeticalSorter).reverse();
-        break;
-      default:
-        return list;
-    }
-
-    return list;
-  };
 
   const renderFilterOptions = () => {
     const filterOptions: string[] = [];
@@ -108,7 +79,7 @@ export const CharacterList = ({
 
   const renderCharacterTiles = () => {
     if (filteredList) {
-      return sortList(filteredList).map((character) => {
+      return sortCharacterList(filteredList, sortOrder).map((character) => {
         return (
           <CharacterTileMemoized
             key={character.name}
